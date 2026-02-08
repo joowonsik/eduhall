@@ -254,5 +254,31 @@
             modal.hide();
         });
     </script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init("YOUR_PUBLIC_KEY"); // 발급받은 Public Key 입력
+   })();
+
+   document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // input 태그들에 name 속성이 있어야 합니다.
+      const templateParams = {
+          school_name: document.querySelector('input[placeholder="예: 에듀초등학교"]').value,
+          user_name: document.querySelector('input[placeholder="성함을 입력해주세요"]').value,
+          phone: document.querySelector('input[placeholder="010-0000-0000"]').value,
+          message: document.querySelector('textarea').value
+      };
+
+      emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', templateParams)
+          .then(function() {
+              alert('상담 신청 메일이 성공적으로 전송되었습니다!');
+              bootstrap.Modal.getInstance(document.getElementById('mailModal')).hide();
+          }, function(error) {
+              alert('전송에 실패했습니다: ' + JSON.stringify(error));
+          });
+   });
+</script>
 </body>
 </html>
