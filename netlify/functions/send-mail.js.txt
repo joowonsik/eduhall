@@ -1,0 +1,42 @@
+const axios = require('axios');
+
+exports.handler = async (event, context) => {
+  // POST 요청만 처리
+  if (event.httpMethod !== "POST") {
+    return { statusCode: 405, body: "Method Not Allowed" };
+  }
+
+  const { school_name, user_name, phone, message } = JSON.parse(event.body);
+
+  // Netlify 대시보드에서 설정할 환경 변수들
+  const SERVICE_ID = process.env.EMAILJS_SERVICE_ID;
+  const TEMPLATE_ID = process.env.EMAILJS_TEMPLATE_ID;
+  const PUBLIC_KEY = process.env.EMAILJS_PUBLIC_KEY;
+  const PRIVATE_KEY = process.env.EMAILJS_PRIVATE_KEY; // 서버리스에서만 사용 가능한 보안 키
+
+  try {
+    // EmailJS API 직접 호출 (SDK 대신 REST API 사용)
+    await axios.post('https://api.emailjs.com/api/v1.0/email/send', {
+      service_id: SERVICE_ID,
+      template_id: TEMPLATE_ID,
+      user_id: PUBLIC_KEY,
+      accessToken: PRIVATE_KEY,
+      template_params: {
+        school_name,
+        user_name,
+        phone,
+        message
+      }
+    });
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ message: "메일 전송 성공!" })
+    };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: JSON.stringify({ error: error.message })
+    };
+  }
+};
