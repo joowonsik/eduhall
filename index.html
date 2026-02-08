@@ -265,15 +265,12 @@
 
 
 
- // HTML 부분 예시
-// <input type="text" id="school_name" class="form-control" ...>
-
-// JS 부분
 const templateParams = {
-    school_name: document.getElementById('school_name').value,
-    user_name: document.getElementById('user_name').value,
-    phone: document.getElementById('phone').value,
-    message: document.getElementById('message').value
+    // 이 왼쪽의 '이름'들이 템플릿의 {{ }} 안의 이름과 같아야 합니다.
+    school_name: document.querySelector('input[placeholder="예: 에듀초등학교"]').value,
+    user_name: document.querySelector('input[placeholder="성함을 입력해주세요"]').value,
+    phone: document.querySelector('input[placeholder="010-0000-0000"]').value,
+    message: document.querySelector('textarea').value
 };
     // 예시 아이디입니다. 본인의 것으로 수정하세요!
 const serviceID = 'service_abc123';   // <- Email Services 탭에서 확인
