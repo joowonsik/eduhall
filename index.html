@@ -254,20 +254,21 @@
             modal.hide();
         });
     </script>
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script type="text/javascript">
    (function(){
-      emailjs.init("IW2SZ3V__5JWrpgf2"); // 발급받은 Public Key 입력
+      // [1] 본인의 Public Key로 반드시 교체하세요 (따옴표 유지)
+      emailjs.init("IW2SZ3V__5JWrpgf2"); 
    })();
 
    document.getElementById('contactForm').addEventListener('submit', function(e) {
       e.preventDefault();
 
-    // 예시 아이디입니다. 본인의 것으로 수정하세요!
-const serviceID = 'service_ponem15';   // <- Email Services 탭에서 확인
-const templateID = 'template_0zeujqp'; // <- Email Templates 탭에서 확인
+      // [2] 본인의 ID들로 반드시 교체하세요 (따옴표 유지)
+      const serviceID = 'service_ponem15'; 
+      const templateID = 'template_0zeujqp';
 
-      // input 태그들에 name 속성이 있어야 합니다.
       const templateParams = {
           school_name: document.querySelector('input[placeholder="예: 에듀초등학교"]').value,
           user_name: document.querySelector('input[placeholder="성함을 입력해주세요"]').value,
@@ -275,9 +276,12 @@ const templateID = 'template_0zeujqp'; // <- Email Templates 탭에서 확인
           message: document.querySelector('textarea').value
       };
 
+      // 전송 시작 시 버튼 비활성화 (여러 번 클릭 방지)
+      const btn = e.target.querySelector('button');
+      btn.disabled = true;
+      btn.innerText = '전송 중...';
 
-
-emailjs.send(serviceID, templateID, templateParams)
+      emailjs.send(serviceID, templateID, templateParams)
           .then(function() {
               alert('상담 신청 메일이 성공적으로 전송되었습니다!');
               const modal = bootstrap.Modal.getInstance(document.getElementById('mailModal'));
@@ -291,10 +295,13 @@ emailjs.send(serviceID, templateID, templateParams)
               btn.innerText = '상담 신청하기';
           });
    });
-</script>
+</script>    
+
+    
 </body>
 
 </html>
+
 
 
 
