@@ -263,7 +263,9 @@
    document.getElementById('contactForm').addEventListener('submit', function(e) {
       e.preventDefault();
 
-
+    // 예시 아이디입니다. 본인의 것으로 수정하세요!
+const serviceID = 'service_ponem15';   // <- Email Services 탭에서 확인
+const templateID = 'template_0zeujqp'; // <- Email Templates 탭에서 확인
 
       // input 태그들에 name 속성이 있어야 합니다.
       const templateParams = {
@@ -273,21 +275,27 @@
           message: document.querySelector('textarea').value
       };
 
-    // 예시 아이디입니다. 본인의 것으로 수정하세요!
-const serviceID = service_ponem15;   // <- Email Services 탭에서 확인
-const templateID = template_0zeujqp; // <- Email Templates 탭에서 확인
+
 
 emailjs.send(serviceID, templateID, templateParams)
-    .then(function() {
-        alert('상담 신청 메일이 성공적으로 전송되었습니다!');
-        // ... 생략 ...
-    }, function(error) {
-        alert('전송에 실패했습니다: ' + JSON.stringify(error));
-    });
+          .then(function() {
+              alert('상담 신청 메일이 성공적으로 전송되었습니다!');
+              const modal = bootstrap.Modal.getInstance(document.getElementById('mailModal'));
+              modal.hide();
+              document.getElementById('contactForm').reset(); // 양식 초기화
+          }, function(error) {
+              alert('전송에 실패했습니다: ' + JSON.stringify(error));
+          })
+          .finally(function() {
+              btn.disabled = false;
+              btn.innerText = '상담 신청하기';
+          });
+   });
 </script>
 </body>
 
 </html>
+
 
 
 
