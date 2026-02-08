@@ -263,15 +263,18 @@
    document.getElementById('contactForm').addEventListener('submit', function(e) {
       e.preventDefault();
 
-      // input 태그들에 name 속성이 있어야 합니다.
-      const templateParams = {
-          school_name: document.querySelector('input[placeholder="예: 에듀초등학교"]').value,
-          user_name: document.querySelector('input[placeholder="성함을 입력해주세요"]').value,
-          phone: document.querySelector('input[placeholder="010-0000-0000"]').value,
-          message: document.querySelector('textarea').value
-      };
 
- 
+
+ // HTML 부분 예시
+// <input type="text" id="school_name" class="form-control" ...>
+
+// JS 부분
+const templateParams = {
+    school_name: document.getElementById('school_name').value,
+    user_name: document.getElementById('user_name').value,
+    phone: document.getElementById('phone').value,
+    message: document.getElementById('message').value
+};
     // 예시 아이디입니다. 본인의 것으로 수정하세요!
 const serviceID = 'service_abc123';   // <- Email Services 탭에서 확인
 const templateID = 'template_xyz456'; // <- Email Templates 탭에서 확인
@@ -287,6 +290,7 @@ emailjs.send(serviceID, templateID, templateParams)
 </body>
 
 </html>
+
 
 
 
