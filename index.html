@@ -243,51 +243,30 @@
         </div>
     </div>
 
-  <script>
-document.getElementById('contactForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-
-    const btn = e.target.querySelector('button');
-    btn.disabled = true;
-    btn.innerText = '전송 중...';
-
-    // 데이터 수집
-    const payload = {
-        school_name: document.querySelector('input[placeholder*="에듀초등학교"]').value,
-        user_name: document.querySelector('input[placeholder*="성함을 입력해주세요"]').value,
-        phone: document.querySelector('input[placeholder*="010-0000-0000"]').value,
-        message: document.querySelector('textarea').value
-    };
-
-    try {
-        // 우리가 만든 서버리스 함수 주소로 요청 보냄
-        const response = await fetch('/.netlify/functions/send-email', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-
-        if (response.ok) {
-            alert('상담 신청이 완료되었습니다!');
-            const modal = bootstrap.Modal.getInstance(document.getElementById('mailModal'));
-            modal.hide();
-            this.reset();
-        } else {
-            throw new Error('전송 실패');
-        }
-    } catch (error) {
-        alert('오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
-    } finally {
-        btn.disabled = false;
-        btn.innerText = '상담 신청하기';
-    }
-});
+<script>
+function copyEmail() {
+    const email = "eduhalladm@gmail.com";
+    
+    // 이메일 주소 복사
+    navigator.clipboard.writeText(email).then(() => {
+        alert('이메일 주소가 복사되었습니다!\n메일함에서 붙여넣기(Ctrl+V) 해주세요.');
+        
+        // 모달 닫기 (선택사항)
+        const modalElement = document.getElementById('mailModal');
+        const modal = bootstrap.Modal.getInstance(modalElement);
+        if (modal) modal.hide();
+    }).catch(err => {
+        // 복사 실패 시 예외 처리
+        alert('이메일 주소: ' + email);
+    });
+}
 </script>
 
     
 </body>
 
 </html>
+
 
 
 
